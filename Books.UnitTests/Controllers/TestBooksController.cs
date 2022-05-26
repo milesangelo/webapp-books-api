@@ -84,6 +84,8 @@ public class TestBooksController
         var result = await sut.Get();
 
         result.Should().BeOfType<NotFoundResult>();
+        var objectResult = (NotFoundResult)result;
+        objectResult.StatusCode.Should().Be(404);
     }
     
     
