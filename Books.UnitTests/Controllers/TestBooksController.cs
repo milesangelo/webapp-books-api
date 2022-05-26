@@ -1,6 +1,7 @@
 using Books.Api.Controllers;
 using Books.Api.Models;
 using Books.Api.Services;
+using Books.UnitTests.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -17,16 +18,7 @@ public class TestBooksController
         var mockBookService = new Mock<IBooksService>();
         mockBookService
             .Setup(_ => _.GetAllBooks())
-            .ReturnsAsync(new List<Book>()
-            {
-                new()
-                {
-                    Id = 1,
-                    Title = "The Titanic",
-                    Author = "James Patterson",
-                    Rating = 3.5m
-                }
-            });
+            .ReturnsAsync(BooksFixture.GetTestBooks());
         var sut = new BooksController(mockBookService.Object);
 
         // Act.
@@ -56,16 +48,7 @@ public class TestBooksController
         var mockBookService = new Mock<IBooksService>();
         mockBookService
             .Setup(_ => _.GetAllBooks())
-            .ReturnsAsync(new List<Book>()
-            {
-                new()
-                {
-                    Id = 1,
-                    Title = "The Titanic",
-                    Author = "James Patterson",
-                    Rating = 3.5m
-                }
-            });
+            .ReturnsAsync(BooksFixture.GetTestBooks());
         var sut = new BooksController(mockBookService.Object);
         var result = await sut.Get();
         result.Should().BeOfType<OkObjectResult>();

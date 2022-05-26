@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fixtures" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Books.Api\Books.Api.csproj" />
   </ItemGroup>
 
