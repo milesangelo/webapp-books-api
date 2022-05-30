@@ -1,6 +1,12 @@
+using Books.Api.Data;
 using Books.Api.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<BooksDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDocker")));
 
 // Add services to the container.
 ConfigureServices(builder.Services);
