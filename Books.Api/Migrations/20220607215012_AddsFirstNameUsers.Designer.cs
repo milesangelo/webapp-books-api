@@ -3,6 +3,7 @@ using System;
 using Books.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Books.Api.Migrations
 {
     [DbContext(typeof(BooksDbContext))]
-    partial class BooksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220607215012_AddsFirstNameUsers")]
+    partial class AddsFirstNameUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

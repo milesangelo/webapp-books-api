@@ -1,11 +1,12 @@
 using Books.Api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Books.Api.Data;
 
-public class BooksDbContext : DbContext
+public class BooksDbContext : IdentityDbContext<BooksUser>
 {
-    public BooksDbContext(DbContextOptions<BooksDbContext> options) : base(options: options)
+    public BooksDbContext(DbContextOptions<BooksDbContext> options) : base(options)
     {
     }
 

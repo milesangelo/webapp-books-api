@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Books.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
     readonly private IBooksService _bookService;
@@ -24,7 +24,7 @@ public class BooksController : ControllerBase
             return Ok(books);
         }
 
-        return NotFound();
+        return Ok();
     }
     
 }

@@ -1,12 +1,10 @@
 using Books.Api.Data;
+using Books.Api.Models;
 using Books.Api.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-builder.Services.AddDbContext<BooksDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDocker")));
 
 // Add services to the container.
 ConfigureServices(builder.Services);
@@ -25,7 +23,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(options => options
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+);
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
@@ -37,4 +41,15 @@ app.Run();
 void ConfigureServices(IServiceCollection services)
 {
     services.AddTransient<IBooksService, BooksService>();
+    services.AddTransient<IUserService, UsersService>();
+    services.AddTransient<IJwtService, JwtService>();
+    services.AddDbContext<BooksDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDocker")));
+    services.AddIdentityCore<BooksUser>(config =>
+    {
+        config.User.RequireUniqueEmail = true;
+        config.SignIn.RequireConfirmedEmail = true;
+    })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<BooksDbContext>(); ;
 }
