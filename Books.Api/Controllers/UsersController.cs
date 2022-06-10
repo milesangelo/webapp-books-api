@@ -18,7 +18,7 @@ namespace Books.Api.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Post([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
             {
@@ -32,13 +32,18 @@ namespace Books.Api.Controllers
             return Ok(loginResponse);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            return Ok("great");
+            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
+                return BadRequest();
+            }
+
+            var registerResponse = await _userService.RegisterAsync(request);
+
+            return Ok();
         }
-
-
-
     }
 }
