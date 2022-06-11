@@ -43,7 +43,7 @@ namespace Books.Api.Controllers
 
             var registerResponse = await _userService.RegisterAsync(request);
 
-            return Ok();
+            return Ok(registerResponse);
         }
     }
 }
