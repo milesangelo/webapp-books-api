@@ -7,13 +7,24 @@ namespace Books.Api.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
+    /// <summary>
+    /// 
+    /// </summary>
     readonly private IBooksService _bookService;
     
+    /// <summary>
+    /// Inj
+    /// </summary>
+    /// <param name="bookService"></param>
     public BooksController(IBooksService bookService)
     {
         _bookService = bookService;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [HttpGet()]
     public async Task<IActionResult> Get()
     {
