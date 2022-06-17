@@ -23,4 +23,4 @@ ENTRYPOINT ["dotnet", "Books.Api.dll"]
 FROM nginx:alpine AS prod-stage
 RUN mkdir -p /app
 COPY --from=final-stage /app /app
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY /Books.Api/nginx.conf /etc/nginx/nginx.conf
