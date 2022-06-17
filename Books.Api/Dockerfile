@@ -19,3 +19,8 @@ FROM base-stage AS final-stage
 WORKDIR /app
 COPY --from=publish-stage /app/publish .
 ENTRYPOINT ["dotnet", "Books.Api.dll"]
+
+FROM nginx:alpine AS prod-stage
+RUN mkdir -p /app
+COPY --from=final-stage /app /app
+COPY nginx.conf /etc/nginx/nginx.conf
