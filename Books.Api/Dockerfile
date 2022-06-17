@@ -15,8 +15,8 @@ RUN dotnet build "Books.Api.csproj" -c Release -o /app/build
 FROM build-stage AS publish-stage
 RUN dotnet publish "Books.Api.csproj" -c Release -o /app/publish
 
-FROM nginx:alpine AS prod-stage
-COPY /Books.Api/nginx.conf /etc/nginx/nginx.conf
+# FROM nginx:alpine AS prod-stage
+# COPY /Books.Api/nginx.conf /etc/nginx/nginx.conf
 
 FROM base-stage AS final-stage
 WORKDIR /app
