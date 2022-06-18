@@ -1,5 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using Books.Api.Constants;
 using Books.Api.Data;
 using Books.Api.Models;
@@ -99,7 +101,15 @@ namespace Books.Api.Services
             }
             else if (result.Errors.Any())
             {
-                response.Message = $"{JsonSerializer.Serialize(result.Errors.First().Description)}";
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    WriteIndented = true
+                };
+                var jso = new JsonSerializerOptions();
+                jso.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+                var jsonString = JsonSerializer.Serialize(result.Errors.First().Description, jso);
+                response.Message = jsonString;
                 response.IsRegistered = false;
                 return response;
             }

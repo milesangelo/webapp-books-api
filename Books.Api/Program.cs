@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 ConfigureServices(builder.Services);
 
-
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddAuthentication()
     .AddJwtBearer();
@@ -43,7 +42,6 @@ app.MapControllers();
 
 app.Run();
 
-
 void ConfigureServices(IServiceCollection services)
 {
     services.AddTransient<IBooksService, BooksService>();
@@ -55,7 +53,12 @@ void ConfigureServices(IServiceCollection services)
     {
         config.User.RequireUniqueEmail = true;
         config.SignIn.RequireConfirmedEmail = true;
+        config.Password.RequiredLength = 6;
+        config.Password.RequireDigit = true;
+        config.Password.RequireNonAlphanumeric = false;
+        config.Password.RequireLowercase = true;
+        config.Password.RequireUppercase = false;
     })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<BooksDbContext>(); ;
+        .AddEntityFrameworkStores<BooksDbContext>();
 }

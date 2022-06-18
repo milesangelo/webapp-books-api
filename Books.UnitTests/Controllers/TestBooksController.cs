@@ -55,7 +55,7 @@ public class TestBooksController
         var objectResult = (OkObjectResult)result;
         objectResult.Value.Should().BeOfType<List<Book>>();
     }
-    
+
     [Fact]
     public async Task Get_OnNoBooksFound_Returns404()
     {
@@ -70,6 +70,4 @@ public class TestBooksController
         var objectResult = (NotFoundResult)result;
         objectResult.StatusCode.Should().Be(404);
     }
-    
-    
 }
