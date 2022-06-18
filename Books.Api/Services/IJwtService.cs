@@ -11,5 +11,7 @@ namespace Books.Api.Services
         public JwtSecurityToken Verify(string jwt);
 
         public string WriteToken(JwtSecurityToken jwt);
+
+        public Task<BooksUser?> GetUserFromJwtAsync(string jwt);
     }
 }

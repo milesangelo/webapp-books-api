@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Books.Api.Models;
 using Books.Api.Settings;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,15 +12,17 @@ namespace Books.Api.Services
     public class JwtService : IJwtService
     {
         private readonly JwtOptions _jwt;
-
-        private readonly string _secureKey = "todo, put some log string here to be the key";
+        private readonly UserManager<BooksUser> _userManager;
+        private readonly string _secureKey = "98CF847E-3CE4-44FB-A7F3-A327D9B78B5C";
 
         /// <summary>
         /// </summary>
         /// <param name="jwt"></param>
-        public JwtService(IOptions<JwtOptions> jwt)
+        public JwtService(IOptions<JwtOptions> jwt,
+            UserManager<BooksUser> userManager)
         {
             _jwt = jwt.Value;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -76,6 +79,17 @@ namespace Books.Api.Services
             }, out var validatedToken);
 
             return (JwtSecurityToken)validatedToken;
+        }
+        
+        public async Task<BooksUser?> GetUserFromJwtAsync(string jwt)
+        {
+            var jwtSecurityToken = Verify(jwt);
+            BooksUser? user = null;
+            
+            var userId = jwtSecurityToken.Claims.First(c => c.Type == "uid").Value;
+            user = await _userManager.FindByIdAsync(userId);
+
+            return user ?? null;
         }
     }
 }

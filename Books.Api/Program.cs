@@ -44,6 +44,7 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services)
 {
+    services.AddHttpContextAccessor();
     services.AddTransient<IBooksService, BooksService>();
     services.AddTransient<IUserService, UsersService>();
     services.AddTransient<IJwtService, JwtService>();
