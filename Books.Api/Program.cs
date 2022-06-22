@@ -11,8 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigureServices(builder.Services);
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
-builder.Services.AddAuthentication()
-    .AddJwtBearer();
+builder.Services.AddAuthentication(opt => {
+    opt.DefaultAuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(opt => {
+    opt.TokenValidationParameters = new TokenValidationParameters {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        
+        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer"),
+        ValidAudience = builder.Configuration.GetSection("Jwt:Audience"),
+        // get from the config
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes())
+    }
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
